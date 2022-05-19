@@ -38,10 +38,22 @@ internal sealed class Player : MonoBehaviour, IDamagable
             {
                 _shootController.Shooting();
             }
-            if(Input.GetKeyDown(KeyCode.LeftWindows)
-                {
+            if(Input.GetKeyDown(KeyCode.LeftShift))
+            { 
                  if (_moveTransform is AccelerationMove accelerationMove)
+                   {
+                    accelerationMove.AddAcceleration();
+                   }
+            }
+
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                if (_moveTransform is AccelerationMove accelerationMove)
+                {
+                    accelerationMove.RemoveAcceleration();
                 }
+            }
+
         }
         private void OnCollisionEnter2D(Collision2D other)
         {
