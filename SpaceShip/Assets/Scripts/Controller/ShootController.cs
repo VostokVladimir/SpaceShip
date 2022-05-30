@@ -7,32 +7,27 @@ namespace Asteroids
 {   //урок 2 выделяем отдельный модуль для стрельбы
     public class ShootController:MonoBehaviour
     {
-        private readonly Rigidbody2D _bullet;
-        private readonly Transform _barrel;
-        private readonly float _force;
+        public  GameObject _bullet;
+        [SerializeField]public Transform _barrel;
+        public float _force;
 
-        public ShootController(Rigidbody2D bullet,Transform barrel,float force)
-
+        private void Awake()
         {
-            _bullet = bullet;
-            _force = force;
-            _barrel = barrel;
-
+            _bullet = Resources.Load<GameObject>("Sphere");
+            _force = 1000;
         }
 
+               
         public void Shooting()
         {
-            var temAmmunition = Instantiate(_bullet, _barrel.position,_barrel.rotation);
+            var rigidBoby = _bullet.GetComponent<Rigidbody2D>();
+            var temAmmunition = Instantiate(rigidBoby, _barrel.transform.position,_barrel.rotation);
             temAmmunition.AddForce(_barrel.up * _force);
-            Invoke("DestroyBullet",1f);
+            Destroy(temAmmunition.gameObject, 2f);
         }
 
-        public void DestroyBullet()//метод не запускается через инвок
-        {
-                                 
-           Destroy(_bullet);//не могу использовать метод без монобихевиора
 
-        } 
+
 
 
     }

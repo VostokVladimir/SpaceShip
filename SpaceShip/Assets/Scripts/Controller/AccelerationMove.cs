@@ -10,7 +10,7 @@ namespace Asteroids
     /// </summary>
         private readonly float _acceleration;
 
-        public AccelerationMove(Transform transform,float speed,float acceleration):base(transform,speed)//расширили базовый конструктор
+        public AccelerationMove(Rigidbody rigidbody,float speed,float acceleration):base(rigidbody,speed)//расширили базовый конструктор
         {
             _acceleration = acceleration;
         }

@@ -5,35 +5,47 @@ using UnityEngine;
 
 namespace Asteroids
 { 
+       [RequireComponent(typeof(Rigidbody))]
 internal sealed class Player : MonoBehaviour, IDamagable
-
 {     
         [SerializeField] private float _speed;
         [SerializeField] private float _hp;
-        [SerializeField] private   Rigidbody2D _bullet;
-        [SerializeField] private   Transform _barrel;
-        [SerializeField] private   float _force;
-        [SerializeField] private GameObject _playePrefab;
+        [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private float _accelatator;
-
-
+        [SerializeField] public GameObject shooterDirect;
+       
         private ShootController _shootController;
         private IMove _moveTransform;
         private DamageController _damageController;
+        private Rigidbody _rigidbody;
 
-        private void Start()
+        private void Awake()
         {
-            _moveTransform = new AccelerationMove(transform,_speed,_accelatator);
-            _shootController = new ShootController(_bullet,_barrel,_force);
-            _damageController = new DamageController();
+            _rigidbody = GetComponent<Rigidbody>();
 
         }
 
+
+        private void Start()
+        {
+           _moveTransform = new AccelerationMove(_rigidbody,_speed,_accelatator);
+         
+            
+            #region"Урок №2 Домашие Задание  1 "
+            
+                        
+            _shootController = shooterDirect.GetComponent<ShootController>();//выносим стрельбу в отдельный класс
+                      
+            _damageController = new DamageController();//выносим подсчет урона в отдельный класс
+
+            #endregion
+        }
+
+
         private void Update()
         {
-
             _moveTransform.Move(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), Time.deltaTime);
-          
+            
             if (Input.GetButtonDown("Fire1"))
             {
                 _shootController.Shooting();
@@ -55,9 +67,11 @@ internal sealed class Player : MonoBehaviour, IDamagable
             }
 
         }
+
+
         private void OnCollisionEnter2D(Collision2D other)
         {
-            _damageController.Damaging(_hp,_playePrefab);
+            _damageController.Damaging(_hp,_playerPrefab);//выносим подсчет урона в отдельный класс
         }
     }
 }
