@@ -46,7 +46,7 @@ namespace Asteroids
             
 
         }
-
+            
 
         /// <summary>
         /// Метод попадания пули во врага
