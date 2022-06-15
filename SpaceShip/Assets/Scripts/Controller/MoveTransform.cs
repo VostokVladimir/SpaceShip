@@ -5,22 +5,23 @@ using UnityEngine;
 
 namespace Asteroids
 {
+    /// <summary>
+    /// Класс контроля движения Игрока
+    /// </summary>
+    /// 
+    
     internal  class MoveTransform:IMove
     {
+        //private SpaceBoundary spaceBoundary;
 
         #region " Урок 2 Задание 3.Переделать движение корабля через физику "
-       
-        ///private readonly Transform _transform;
+
+
         private readonly Rigidbody _rigidbody;
         public float Speed { get; protected set;}//ограничили скрипт свойством по принципу открытости закрытости
         private Vector3 _move;
 
-
-        //public MoveTransform(Transform transform, float speed)
-        //{
-        //    _transform = transform;
-        //    Speed = speed;
-        //}
+        
 
         public MoveTransform(Rigidbody rigidbody, float speed)
         {
@@ -35,9 +36,8 @@ namespace Asteroids
 
             var speed = Speed * deltatime;
             _move.Set(horizontal * speed, vertical * speed, 0.0f);
-            //_transform.localPosition = _transform.localPosition + _move;
-            _rigidbody.velocity += _move;//альтернативный вариант движения с физикой
-        }
+            _rigidbody.velocity += _move;
+        }   
 
     }
 }

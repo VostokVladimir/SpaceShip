@@ -8,27 +8,41 @@ namespace Asteroids
     public class ShootController:MonoBehaviour
     {
         public  GameObject _bullet;
-        [SerializeField]public Transform _barrel;
+        private BulletPool _bulletPool;
+        private int poolCount=10;
+
+        [SerializeField]public Transform _barrel;//точка выстрела
         public float _force;
 
         private void Awake()
         {
             _bullet = Resources.Load<GameObject>("Sphere");
+            _bulletPool = new BulletPool(_bullet, poolCount, this.transform);
+            _bulletPool.autoExpand=true;
             _force = 1000;
         }
 
                
         public void Shooting()
         {
-            var rigidBoby = _bullet.GetComponent<Rigidbody2D>();
-            var temAmmunition = Instantiate(rigidBoby, _barrel.transform.position,_barrel.rotation);
-            temAmmunition.AddForce(_barrel.up * _force);
-            Destroy(temAmmunition.gameObject, 2f);
+           
+            var temAmmunition = _bulletPool.GetFreeObject();
+            temAmmunition.transform.position = _barrel.position;
+            temAmmunition.transform.rotation = _barrel.rotation;
+            var rigidbody_pool_bullet = temAmmunition.GetComponent<Rigidbody>();
+            rigidbody_pool_bullet.AddForce(_barrel.up * _force);
+
+          // StartCoroutine(Disactivation_objectPool(temAmmunition));//при дизактивации обьектов пула обнуляется ссылка на GO. почему ?
+                      
+           
         }
+                
 
-
-
-
+        IEnumerator Disactivation_objectPool(GameObject gameObject)
+        {
+            yield return new WaitForSeconds(5f);
+            gameObject.SetActive(false);
+        }
 
     }
 }
