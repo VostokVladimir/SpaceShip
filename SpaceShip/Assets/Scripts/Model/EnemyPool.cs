@@ -9,7 +9,9 @@ using Object = UnityEngine.Object;
 
 namespace Asteroids.Opject_Pool
 
-{
+{ /// <summary>
+/// Этот скрипт не используется в игре
+/// </summary>
     internal sealed class EnemyPool
     {
 
